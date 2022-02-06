@@ -1,21 +1,57 @@
-<script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+    <div class="app" @click="toggleFullscreen">
+        <div class="cinerama">
+            <div class="name">
+                Cinerama
+            </div>
+            <div class="description">
+                Click to toggle fullscreen
+            </div>
+        </div>
+    </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<script setup lang="ts">
+import { invoke } from "@tauri-apps/api/tauri";
+
+function toggleFullscreen() {
+    invoke("toggle_fullscreen");
+    document.body.requestFullscreen();
+}
+</script>
+
+<style lang="scss">
+html, body {
+    margin: 0;
+    padding: 0;
+    background: #000000;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+
+.app {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    cursor: pointer;
+
+    .cinerama {
+        color: #000000;
+        font-weight: 600;
+        text-align: center;
+        transition: color .2s ease-in-out;
+
+        .name {
+            text-transform: uppercase;
+        }
+
+        .description {
+            font-size: 0.8rem;
+        }
+    }
+
+    &:hover .cinerama {
+        color: #404631;
+    }
 }
 </style>
