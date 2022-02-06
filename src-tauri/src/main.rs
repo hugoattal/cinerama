@@ -6,10 +6,12 @@ windows_subsystem = "windows"
 use tauri::{
     CustomMenuItem,
     Event,
-    GlobalShortcutManager, Manager,
+    Manager,
     SystemTray, SystemTrayEvent, SystemTrayMenu,
     WindowBuilder, WindowUrl
 };
+
+use std::time::{SystemTime, UNIX_EPOCH};
 
 #[tauri::command]
 async fn toggle_fullscreen(window: tauri::Window) {
@@ -24,7 +26,7 @@ fn main() {
                 .add_item(CustomMenuItem::new("new", "New window"))
                 .add_item(CustomMenuItem::new("exit_app", "Quit")),
         ))
-        .on_system_tray_event(|app, event| match event {
+        .on_system_tray_event(move |app, event| match event {
             SystemTrayEvent::LeftClick {
                 position: _,
                 size: _,
@@ -39,15 +41,21 @@ fn main() {
                     "exit_app" => {
                         app.exit(0);
                     }
-                    "new" => app
-                        .create_window(
-                            "new",
-                            WindowUrl::App("index.html".into()),
-                            |window_builder, webview_attributes| {
-                                (window_builder.title("Cinerama"), webview_attributes)
-                            },
-                        )
-                        .unwrap(),
+                    "new" => {
+                        app
+                            .create_window(
+                                format!("new-{}", SystemTime::now()
+                                    .duration_since(UNIX_EPOCH)
+                                    .unwrap()
+                                    .as_millis()
+                                    .to_string()),
+                                WindowUrl::App("index.html".into()),
+                                |window_builder, webview_attributes| {
+                                    (window_builder.title("Cinerama"), webview_attributes)
+                                },
+                            )
+                            .unwrap();
+                    },
                     _ => {}
                 }
             }
@@ -62,7 +70,7 @@ fn main() {
     #[cfg(target_os = "macos")]
         app.set_activation_policy(tauri::ActivationPolicy::Regular);
 
-    app.run(|app_handle, e| match e {
+    app.run(|_app_handle, e| match e {
         Event::ExitRequested { api, .. } => {
             api.prevent_exit();
         }
