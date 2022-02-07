@@ -54,8 +54,8 @@
         "windows": [
             {
                 "title": "Cinerama",
-                "width": 800,
-                "height": 600,
+                "width": 260,
+                "height": 140,
                 "resizable": true,
                 "fullscreen": false
             }

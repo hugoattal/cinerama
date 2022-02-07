@@ -51,7 +51,7 @@ fn main() {
                                     .to_string()),
                                 WindowUrl::App("index.html".into()),
                                 |window_builder, webview_attributes| {
-                                    (window_builder.title("Cinerama"), webview_attributes)
+                                    (window_builder.title("Cinerama").inner_size(260.0, 140.0), webview_attributes)
                                 },
                             )
                             .unwrap();
