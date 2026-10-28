@@ -1,7 +1,16 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
 
-// https://vitejs.dev/config/
+// https://v2.tauri.app/start/frontend/vite/
 export default defineConfig({
-  plugins: [vue()]
-})
+    plugins: [vue()],
+    clearScreen: false,
+    server: {
+        port: 1430,
+        strictPort: true,
+        watch: {
+            ignored: ["**/src-tauri/**"]
+        }
+    },
+    envPrefix: ["VITE_", "TAURI_ENV_"]
+});

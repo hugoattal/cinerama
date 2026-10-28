@@ -12,12 +12,21 @@
 </template>
 
 <script setup lang="ts">
-import { invoke } from "@tauri-apps/api/tauri";
+import { invoke } from "@tauri-apps/api/core";
+import { onMounted, onUnmounted } from "vue";
 
 function toggleFullscreen() {
     invoke("toggle_fullscreen");
-    document.body.requestFullscreen();
 }
+
+function onKeydown(event: KeyboardEvent) {
+    if (event.key === "Escape") {
+        invoke("exit_fullscreen");
+    }
+}
+
+onMounted(() => window.addEventListener("keydown", onKeydown));
+onUnmounted(() => window.removeEventListener("keydown", onKeydown));
 </script>
 
 <style lang="scss">

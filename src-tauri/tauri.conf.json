@@ -1,58 +1,18 @@
 {
-    "package": {
-        "productName": "cinerama",
-        "version": "0.1.0"
-    },
+    "$schema": "https://schema.tauri.app/config/2",
+    "productName": "cinerama",
+    "version": "0.1.0",
+    "identifier": "com.hugoattal.cinerama",
     "build": {
-        "distDir": "../dist",
-        "devPath": "http://localhost:3000",
-        "beforeDevCommand": "npm run dev",
-        "beforeBuildCommand": "npm run build"
+        "frontendDist": "../dist",
+        "devUrl": "http://localhost:1430",
+        "beforeDevCommand": "pnpm dev",
+        "beforeBuildCommand": "pnpm build"
     },
-    "tauri": {
-        "bundle": {
-            "active": true,
-            "targets": "all",
-            "identifier": "com.tauri.dev",
-            "icon": [
-                "icons/32x32.png",
-                "icons/128x128.png",
-                "icons/128x128@2x.png",
-                "icons/icon.icns",
-                "icons/icon.ico"
-            ],
-            "resources": [],
-            "externalBin": [],
-            "copyright": "",
-            "category": "DeveloperTool",
-            "shortDescription": "",
-            "longDescription": "",
-            "deb": {
-                "depends": [],
-                "useBootstrapper": false
-            },
-            "macOS": {
-                "frameworks": [],
-                "minimumSystemVersion": "",
-                "useBootstrapper": false,
-                "exceptionDomain": "",
-                "signingIdentity": null,
-                "entitlements": null
-            },
-            "windows": {
-                "certificateThumbprint": null,
-                "digestAlgorithm": "sha256",
-                "timestampUrl": ""
-            }
-        },
-        "updater": {
-            "active": false
-        },
-        "allowlist": {
-            "all": true
-        },
+    "app": {
         "windows": [
             {
+                "label": "main",
                 "title": "Cinerama",
                 "width": 260,
                 "height": 140,
@@ -61,11 +21,19 @@
             }
         ],
         "security": {
-            "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
-        },
-        "systemTray": {
-            "iconPath": "icons/icon.ico",
-            "iconAsTemplate": true
+            "csp": "default-src 'self' ipc: http://ipc.localhost; style-src 'self' 'unsafe-inline'"
         }
+    },
+    "bundle": {
+        "active": true,
+        "targets": "all",
+        "category": "Utility",
+        "icon": [
+            "icons/32x32.png",
+            "icons/128x128.png",
+            "icons/128x128@2x.png",
+            "icons/icon.icns",
+            "icons/icon.ico"
+        ]
     }
 }
